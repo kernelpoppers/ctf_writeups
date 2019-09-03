@@ -7,7 +7,11 @@
 
 ## Challenge
 
+### Description
 A 7zip archive was provided, along with an ASCII art picture of a cat.
+
+### Files
+meow.7z
 
 ## Solution
 
@@ -49,7 +53,7 @@ On a whim I opened one in GIMP, and carefully deleted all of the incorrect pixel
 
 ![screenshot.png](screenshot.png "screenshot.png")
 
-## Flag
+### Flag
 
 ```
 TWCTF{Ny4nNyanNy4n_M30wMe0wMeow}
