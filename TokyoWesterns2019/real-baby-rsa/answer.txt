@@ -1,0 +1,7 @@
+Based on the factors to encrypt the data the result of a given character will never change.
+Answer.py will encrypt each character, output the result, and also output the index into the char string so you can match it up by hand
+ 
+Go through and match output of answer.py to the output file
+
+
+TWCTF{padding_is_important}
