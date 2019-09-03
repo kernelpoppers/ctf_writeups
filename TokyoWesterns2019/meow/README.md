@@ -39,9 +39,11 @@ done
 
 Eventually, some of them started to look like a Nyan Cat image (although still severely broken).  However even after several thousand iterations they never became clean enough to read.
 
-![flag_dec2098.png](flag_dec2098.png =400x400)
+### Iteration #2098
+![flag_dec2098.png](flag_dec2098.png)
 
-![flag_dec2098.png](flag_dec2108.png =400x400)
+### Iteration #2108
+![flag_dec2098.png](flag_dec2108.png)
 
 On a whim I opened one in GIMP, and carefully deleted all of the incorrect pixels around the flag.  To my suprise, it was just enough to make it readable!
 
