@@ -45,7 +45,7 @@ RelRO                         : Partial
 gef➤  
 ```
 
-That said, since PIE (ASLR) is only disabled for **this** binary, everything else will still be randomized, including the libc and the stack.  Luckily, we can abuse the format string vulnerability to leak pointers, and since we can overwrite main's return address, we can redirect it back to _start afterward.  This gives us a second opportunity to exploit the overflow, after leaking a useful pointer.  Let's walk through it.
+That said, since PIE (ASLR) is only disabled for **this** binary, everything else will still be randomized, including the libc and the stack.  Luckily, we can abuse the format string vulnerability to leak pointers, and since we can overwrite main's return address, we can redirect it back to `_start` afterward.  This gives us a second opportunity to exploit the overflow, after leaking a useful pointer.  Let's walk through it.
 
 The return address will be overwritten at offset 264...
 
@@ -112,7 +112,7 @@ $cs: 0x0033 $ss: 0x002b $ds: 0x0000 $es: 0x0000 $fs: 0x0000 $gs: 0x0000
 0x0000000000400709 in main ()
 ```
 
-_start's address is 0x400590...
+`_start`'s address is `0x400590`...
 
 ```
 gef➤  p -start
@@ -259,7 +259,7 @@ Buffer is at 00007ffda6c2f3b0
 $ id
 uid=1000(warmup) gid=1000(warmup) groups=1000(warmup)
 $  
-
+```
 
 ### Flag
 
