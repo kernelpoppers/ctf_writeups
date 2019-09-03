@@ -11,7 +11,6 @@ None given
 ### Files
 * problem.py
 * output.txt
-* etc
 
 ## Solution
 
