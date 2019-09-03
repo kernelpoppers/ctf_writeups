@@ -121,7 +121,7 @@ $1 = {<text variable, no debug info>} 0x400590 <_start>
 
 Now lets look for a useful pointer.  Ideally, something on the stack near our buffer, that we can use to reliably calculate its address...
 
-Our stack is in the range: `0x00007ffff7ffe000 - 0x00007ffff7fff000`
+Our stack is in the range: `0x00007ffffffde000 0x00007ffffffff000`
 
 ```
 gef➤  vmmap 
