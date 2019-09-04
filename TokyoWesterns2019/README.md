@@ -10,7 +10,7 @@
 Only a single file is included easy_crack_me 
 On running the program we see that we `./bin flag_is_here` so we need to input the flag as an argument.
 
-![first_test.png](first_test.png)
+![first_input.PNG](first_input.PNG)
 
 ## Solution/
 To practice our Ghidra skills lets use it, opening it up we find that there
@@ -108,7 +108,7 @@ Xored Together:
 So now we have a rough idea of what everything should equal once it is in place.
 The next loop helps us narrow down what will go where with more precision.
 
-![last_loop.PNG](last_loop.PNG)
+![last_loop.png](last_loop.png)
 
 Here this loop goes through the string and checks to see if the character is a `0-9`, `a-f`` or `else`, and if these the value 0xff, 0x80, 0x00 is set respectively. Then the memory is then checked at 0x400fc0 so we can get the list of character order.
 ```
