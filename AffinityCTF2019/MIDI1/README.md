@@ -1,5 +1,5 @@
 <!-- borrowed from https://github.com/m3ssap0/CTF-Writeups/blob/master/template.md -->
-# CTF Name – MIDI1
+# Affinity CTF 2019 – MIDI1
 
 * **Category:** MISC
 * **Points:** 50

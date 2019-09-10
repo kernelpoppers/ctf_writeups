@@ -1,5 +1,5 @@
 <!-- borrowed from https://github.com/m3ssap0/CTF-Writeups/blob/master/template.md -->
-# CTF Name – Breaking Bad
+# Affinity CTF 2019 – Breaking Bad
 
 * **Category:** Crypto
 * **Points:** 150
