@@ -24,7 +24,7 @@
 When I looked at this, immediately I thought of the esoteric programming language [Brainfuck](https://en.wikipedia.org/wiki/Brainfuck).
 I knew that this had to be encoded somehow, so I began to substitute specific characters for characters in BrainFuck.
 
-I figured this out by going to this [encoder](https://copy.sh/brainfuck/text.html) and typing the beginning of the flag AFFCTF{
+I figured this out by going to this [bf_encoder](https://copy.sh/brainfuck/text.html) and typing the beginning of the flag AFFCTF{
 
 The output given was:
 
