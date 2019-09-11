@@ -6,12 +6,12 @@
 
 ## Challenge
 
-###Description
+### Description
 https://www.youtube.com/watch?v=7xxgRUyzgs0
 
 ### Files
 
-[IntensityOverload.png](IntensityOverload.png)
+[IntensityOverload.png](Intensity_Overload.png)
 
 ## Solution
 
