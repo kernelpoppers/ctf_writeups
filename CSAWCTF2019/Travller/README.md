@@ -77,7 +77,7 @@ For someone who does not know what to look for it may take a bit to find the exp
 
 For a quick rundown of what we will work with reference the picture above. Here the first 8 bytes will be a prev_size, the next 8 bytes will be used for the size with a plus 1 if the previous chunk is in use, then our value and the cycle continues. Technically the prev_size and size bytes are apart of the previous chunk allowing us to possibly modify our chunks.
 
-![heap2.PNG](heap.PNG)
+![heap2.PNG](heap2.PNG)
 
 Here we can see what the heap will look like after a trip of size 0x80 is added to our list. We have the first chunk with a total size of 0x20, with the string pointer and the size saved. Then our next chunk is a chunk size of 0x90 even though our size is only 0x80, this is because of the extra data that is needed by the heap, so a malloc of 0x80 will ultimately allocate 0x90 space. This holds true for most of the options in add except for 0x128, with this option only 0x130 bytes are used in the chunk. this allows us to ultimately set the last byte of the next size chunk to 0. From here we can mess with the next malloc'ed chunks. Lastly in the image above we have the last size of 0x204e1 this is the size remaining in our available chunk currently. We are not concerned with this currently.
 
