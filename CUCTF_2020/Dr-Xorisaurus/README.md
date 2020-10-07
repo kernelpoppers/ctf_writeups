@@ -12,9 +12,9 @@
 A binary was given along with libc 2.32 and a corresponding ld file.
 
 ### Files
-dr_xorisaurus
-ld-2.32.so
-libc.so.6
+ * dr_xorisaurus
+ * ld-2.32.so
+ * libc.so.6
 
 ## Analysis
 Given that the libc given is 2.32, we can mostly assume that this challenge will involve the heap and we will need to take into account the new protection mechanism of safe linking utilized in it, more can be learned about it [here](https://research.checkpoint.com/2020/safe-linking-eliminating-a-20-year-old-malloc-exploit-primitive/). The brunt of it is that any usual heap leaks will be xored by their location in memory, this basically protects against blind overflows/overwrites.
