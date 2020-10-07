@@ -54,7 +54,7 @@ leak = leak & 0xfffffffffffff000
 This will set `leak = 0x55746f81d000`, or the base of the heap. With the ability to get a uaf, and get leaks we should be able to exploit the program.
 
 ## Exploit
-With the ability to get the heap base and by utilizing the uaf, we are able to corrupt the tcache list, and get overlapping chunks for further exploitation. The method I went with was to just overwrite the tcache list location entirely, at the top of the heap. By taking control of this list we effectively can control the address for every chunk within the available size. Everything else just falls into place and takes place like other heap exploits. Here is an image of what the tcache list looks like with full control of this list:<b />
+With the ability to get the heap base and by utilizing the uaf, we are able to corrupt the tcache list, and get overlapping chunks for further exploitation. The method I went with was to just overwrite the tcache list location entirely, at the top of the heap. By taking control of this list we effectively can control the address for every chunk within the available size. Everything else just falls into place and takes place like other heap exploits. Here is an image of what the tcache list looks like with full control of this list:
 
 ![heap2](heap2.jpg)
 
