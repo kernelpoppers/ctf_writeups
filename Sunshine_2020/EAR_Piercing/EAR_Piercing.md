@@ -12,7 +12,7 @@ This challenge released with around 12 hours left in the competition along with 
 
 I will walk through my approach on exploitation and discuss why possibly looking at the documentation longer would be more beneficial as after the competition I was informed of a much easier method to get execution.
 
-### Bog.peg
+### Bof.peg
 
 Using the runpeg file, I was able to use the debugger ability to dump the entire assembly:
 
